@@ -1,1 +1,46 @@
+def capture(board, last_pit, player):
+    """Apply the capturing aspect of Mancala.
+    
+    board: ints representing stones in pits
+    last_pit: index of last pit marble was placed
+    player: 1 or 2
+    
+    Returns: updated board
+    """
+    #set pit and store status
+    #p1 first pit is 0, p2 first pit is 7
+    p1_side = range(0,6)
+    p2_side = range(7,13)
+    
+    #p1 store is 6, p2 store would be 13
+    p1_store = 6
+    p2_store = 13
+    
+    #need to find out position of last marble using player
+    #1 is player 1 and 2 is player 2
+    if player == 1:
+        #my_side is the side of the current player
+        my_side = p1_side
+        #store is the store of the current player
+        store = p1_store #would be 6 in this case
+        parallel = 12 - last_pit #calc parallel side
+    else: #repeat for player 2
+        my_side = p2_side
+        store = p2_store
+        parallel = 12 - last_pit
+    
+    #check if current pit is empty AND is on current player side
+    if last_pit in my_side and board[last_pit] == 1:
+        
+        #initialize var to take marbles from parallel side
+        take_parallel = board[parallel]
+        
+        #capture marbles from take_parallel
+        board[store] += 1 + take_parallel #use += 1 to include player's marble
+        
+        #empty the board at the last pit and the parallel pit
+        #marbels have been taken and added to player store
+        board[last_pit] = 0
+        board[parallel] = 0
 
+    return board
