@@ -92,7 +92,7 @@ def capture(board, last_pit, player):
     return board
 
 
-def check_turn(last_index, player1, player2):
+def check_turn(last_index, player1, player2): 
     """Determines if the current player gets another turn or if the turn switches.
 
     Args:
@@ -117,7 +117,7 @@ def check_turn(last_index, player1, player2):
         set_turn(player2, True)
         print(f"{player2.name}'s turn!")
 
-def end_game_and_final_score(board, p1_side, p2_side):
+def end_game_and_final_score(board, p1_side, p2_side): #Theo's Function
     """Checks the pebbles in each pit and places remaining pebbles in a player's,
     then compares score to return a winner or draw if the scores are equal
 
