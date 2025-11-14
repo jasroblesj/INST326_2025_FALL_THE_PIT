@@ -70,3 +70,63 @@ def check_turn(last_index, player1, player2):
         set_turn(player1, False)
         set_turn(player2, True)
         print(f"{player2.name}'s turn!")
+
+def end_game_and_final_score(board, p1_side, p2_side):
+    """Checks the pebbles in each pit and places remaining pebbles in a player's,
+    then compares score to return a winner or draw if the scores are equal
+
+
+    Args:
+        board (list of ints): A representation of the board using list of numebrs
+        p1_side (list): A list of numbers representing Player 1's side of the board
+        p2_side (list): A list of numbers representing Player 2's side of the board
+
+    Returns:
+        final_scores (Dict): The players and their scores
+        game_end (Bool): Whether the game has eneded or not (True if game has ended. False If not)
+        winner (Str): The name of the winner as a string
+        board (list): An updated board after remeining pebbles have been added
+        
+    """
+    game_end = False 
+    final_scores = {} # Creates an empty dictonary to store the player's score{Player:Score}
+    
+    # For each pit on player 1's side check to see if all the pits are empty 
+    # If they are then the game should end
+    for pit in p1_side:
+        if all(board[pit] == 0):
+            game_end = True
+            
+            # For each pit on Player 2's side add all the leftover the pebbles 
+            for pit in p2_side:
+                remaining_pebbles = sum(board[pit])
+                
+                # Remove the pebbles from the pits after the remainder is recorded
+                # Add the total leftover pebbles to the Player 2's store
+                for pit in p2_side: 
+                    board[pit] = 0
+                board[p2_store] += remaining_pebbles
+                
+    for pit in p1_side
+        if all(board[pit] == 0):
+            game_end = True
+            for pit in p1_side:
+                remaining_pebbles = sum(board[pit])
+                for pit in p1_side: #Removes pebbles after the remainder recorded
+                    board[pit] = 0
+                board[p1_store] += remaining_pebbles
+                
+    # Create players as dictionary keys with the scores as their values
+    final_scores["Player 1"], final_scores["Player 2"] = board[p1_store], board[p2_store]
+    
+    # Compare the scores. The player with with higher number is the winner
+    # If the scores are eqaual then the game is a draw
+    if final_scores["Player 1"] > final_scores["Player 2"]:
+        winner = "Player 1"
+    elif final_scores["Player 2"] > final_scores["Player 1"]:
+        winner = "Player2"
+    else:
+        winner = "Draw"
+        
+    return final_scores,winner, game_end, board
+        
