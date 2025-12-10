@@ -1,47 +1,76 @@
-def distribute(board, starting_pit, current_player):
-    """
-    name - Akbar Sajjad
-    Distribute the stones one by one into the pits, skipping over the opponents pit
+class Mancala:
+    def __init__(self, p1, p2):
+        self.board = [4, 4, 4, 4, 4, 4, 0, 
+                      4, 4, 4, 4, 4, 4, 0] 
+        self.p1 = p1
+        self.p2 = p2
+
+    def display_board(self):
+        """
+        Author - Akbar Sajjad 
+        
+        Displays Mancala Board
+        
+        Args:
+            Self
+        """
+        print("\n\tPlayer 2")
+        
+        #p2 pits from p2s perspective
+        for pits in range(12, 6, -1):
+            print(f"[{self.board[pits]:2}]", end = " ")
+        print()
+        print(f"[{self.board[13]:2}]\t\t\t [{self.board[6]:2}]")
+        
+        #p1 pits from p1s perspective 
+        for pits in range(0,6):
+            print(f"[{self.board[pits]:2}]", end = " ")
+        print("\n\tPlayer 1")
+
+
+    def distribute(self, starting_pit, current_player):
+        """   
+        Author - Akbar Sajjad
     
-    Arguments:
-        board: list (sample board) - [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
-            p1 pits - indices 0-5 | p1 storage - index 6
-            p2 pits - indices 7-12 | p1 storage - index 13    
-        starting pit: int - index of the chosen pit to distribute stones from 
-        current_player: str - the current player ("p1" or "p2")
+        Distribute the stones one by one into the pits, skipping over the opponents pit
     
-    Returns:
-        board: list - updated board after stones have been distributed
-        last_pit: int - index of the pit where the last stone was placed
-    """
+        Arguments:
+            p1 pits - indices 0-5 | p1storage - index 6
+            p2 pits - indices 7-12 | p1storage - index 13    
+            starting pit: int - index of the chosen pit to distribute stones from 
+            current_player: str - the current player ("p1" or "p2")
+    
+        Returns:
+            last_pit: int - index of the pit where the last stone was placed
+        """
     #determining the starting pit to start distribution
-    if board[starting_pit] > 0:
-        current_stonecount = board[starting_pit]
-        board[starting_pit] = 0
-    else:
-        print("You must pick a board that has at least 1 stone and is not"\
+        if self.board[starting_pit] > 0:
+            current_stonecount = self.board[starting_pit]
+            self.board[starting_pit] = 0
+        else:
+            print("You must pick a board that has at least 1 stone and is not"\
             "yours or your opponents scoring pit")
-        return board
+            return None
     
     # where to begin dropping stones
-    droppoint = (starting_pit + 1) % 14
+        droppoint = (starting_pit + 1) % 14
  
     # skipping pits logic based on current player
-    skippedpit = 13 if current_player == "p1" else 6
+        skippedpit = 13 if current_player == "p1" else 6
         
     
     #distribution iteration
-    for stones in range(current_stonecount):
-        while droppoint == skippedpit:
-            droppoint = (droppoint + 1) % 14 
+        for stones in range(current_stonecount):
+            while droppoint == skippedpit:
+                droppoint = (droppoint + 1) % 14 
         
         #place stones
-        board[droppoint] += 1
-        last_pit = droppoint
-        droppoint = (droppoint + 1) % 14 
+            self.board[droppoint] += 1
+            last_pit = droppoint
+            droppoint = (droppoint + 1) % 14 
     
-    #return updated board and the last pit the stone was placed
-    return board, last_pit
+    #return the last pit the stone was placed
+        return last_pit
 
 
 def capture(board, last_pit, player):
