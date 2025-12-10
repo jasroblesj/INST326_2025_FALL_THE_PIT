@@ -123,6 +123,13 @@ def capture(board, last_pit, player):
 
     return board
 
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self._my_turn = False
+        
+    def set_turn(self, status):
+        self._my_turn = status
 
 def check_turn(last_index, player1, player2): 
     """ Jasmin's function
@@ -155,14 +162,6 @@ def get_pit_index(player):
 
 def set_turn(player, status):
     player.set_turn(status)
-
-class Player:
-    def __init__(self, name):
-        self.name = name
-        self._my_turn = False
-        
-    def set_turn(self, status):
-        self._my_turn = status
         
 def parse_args(arglist):
     """ Parse command-line arguments.
@@ -239,3 +238,7 @@ def end_game_and_final_score(board, p1_side, p2_side, p1_store, p2_store): #Theo
         winner = "Draw"
         
     return final_scores, winner, game_end, board
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+    main(args.stones, args.names)
