@@ -1,3 +1,6 @@
+from argparse import ArgumentParser
+import sys
+
 class Mancala:
     def __init__(self, p1, p2):
         self.board = [4, 4, 4, 4, 4, 4, 0, 
@@ -146,6 +149,39 @@ def check_turn(last_index, player1, player2):
         set_turn(player1, False)
         set_turn(player2, True)
         print(f"{player2.name}'s turn!")
+
+def get_pit_index(player):
+    return 6 if player.name == "Player 1" else 13
+
+def set_turn(player, status):
+    player.set_turn(status)
+
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self._my_turn = False
+        
+    def set_turn(self, status):
+        self._my_turn = status
+        
+def parse_args(arglist):
+    """ Parse command-line arguments.
+        
+    Allow two optional arguments:
+        -s, --stones: number of stones per pit (default:4)
+        -n, --names: one or two player names
+    
+    Args:
+        arglist (list of str): arguments from the command line.
+    
+    Returns:
+        namespace: the parsed arguments, as a namespace.
+    """
+    parser = ArgumentParser()
+    parser.add_argument("-s", "--stones", type = int, default=4,
+                        help="number of stones per pit (default: 4)")
+    parser.add_argument("-n", "--names", nargs = "*", help="player names")
+    return parser.parse_args(arglist)
 
 def end_game_and_final_score(board, p1_side, p2_side, p1_store, p2_store): #Theo's Function
     """Checks the pebbles in each pit and places remaining pebbles in a player's,
