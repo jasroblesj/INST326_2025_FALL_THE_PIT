@@ -417,6 +417,49 @@ def Calculate_final_score(board, p1_store, p2_store):
        
     return final_scores, winner
 
+def main(stones, names):
+    """
+    Author - Akbar Sajjad
+    
+    Technique claimed: Composition of two custom classes
+    
+    Initiate a Mancala game
+    
+    Args:
+        stones (int): # of stones that each pit starts with default value is 4
+        names (list): list containing two player names, default are "Player 1/2"
+    
+    Side Effects:
+        Prints game layout
+        Starts game loop
+        modifies game as it is played
+          
+    """
+    if not names:
+        p1_name = "Player 1"
+        p2_name = "Player 2"
+    elif len(names) == 1:
+        p1_name = names[0]
+        p2_name = "PLayer 2"
+    else:
+        p1_name, p2_name = names[0], names[1]
+    
+    #player and game instance
+    p1 = Player(p1_name)
+    p2 = Player(p2_name)
+    
+    board = [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
+    game = Mancala(p1, p2)
+    game.board = board 
+    
+    #run the game 
+    print(f"Lets Play Mancala\n")
+    print(f"{p1_name} vs. {p2_name}")
+    print(f"\nEach pit starts with {stones} stones\n")
+    
+    game.run_game()
+    
+
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
     main(args.stones, args.names)
