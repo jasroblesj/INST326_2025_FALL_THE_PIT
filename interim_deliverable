@@ -77,11 +77,15 @@ class Mancala:
 
 
 def capture(board, last_pit, player):
-    """Apply the capturing aspect of Mancala.
+    """
+    Author - Robsan Melaku
     
-    board: ints representing stones in pits
-    last_pit: index of last pit marble was placed
-    player: 1 or 2
+    Apply the capturing aspect of Mancala.
+    
+    Args:
+        board: ints representing stones in pits
+        last_pit: index of last pit marble was placed
+        player: 1 or 2
     
     Returns: updated board
     """
@@ -107,8 +111,8 @@ def capture(board, last_pit, player):
         store = p2_store
         parallel = 12 - last_pit
     
-    #check if current pit is empty AND is on current player side
-    if last_pit in my_side and board[last_pit] == 1:
+    #use contains magic method to check if current pit is empty AND is on current player side
+    if my_side.__contains__(last_pit) and board[last_pit] == 1:
         
         #initialize var to take marbles from parallel side
         take_parallel = board[parallel]
