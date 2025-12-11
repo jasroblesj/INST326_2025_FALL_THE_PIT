@@ -160,108 +160,136 @@ def check_turn(last_index, player1, player2):
         set_turn(player2, True)
         print(f"{player2.name}'s turn!")
 
-def end_game_and_final_score(board, p1_side, p2_side, p1_store, p2_store): #Theo's Function
-    """Checks the pebbles in each pit and places remaining pebbles in a player's,
-    then compares score to return a winner or draw if the scores are equal
+def get_pit_index(player):
+    return 6 if player.name == "Player 1" else 13
+
+def set_turn(player, status):
+    player.set_turn(status)
+        
+def parse_args(arglist):
+    """ Parse command-line arguments.
+        
+    Allow two optional arguments:
+        -s, --stones: number of stones per pit (default:4)
+        -n, --names: one or two player names
+    
+    Args:
+        arglist (list of str): arguments from the command line.
+    
+    Returns:
+        namespace: the parsed arguments, as a namespace.
+    """
+    parser = ArgumentParser()
+    parser.add_argument("-s", "--stones", type = int, default=4,
+                        help="number of stones per pit (default: 4)")
+    parser.add_argument("-n", "--names", nargs = "*", help="player names")
+    return parser.parse_args(arglist)
 
 def Check_game_end(board, p1_side, p2_side, p1_store, p2_store):
-    """ 
+    """
     End game if one side of the board is empty or when one player has more than
     half the pebbles in their store.
 
+
     Args:
-    
+   
         board (list): The game board represented by as a list of integers.
         Each index represents a pit with the number being the amount of pebbles
         or stones in each pit  
-        
+       
         p1_side (int): The indices of the pit's on Player 1's side (range: 0-6)
-        
+       
         p2_side (int): The indices of the pit's on Player 2's side (range: 7-13)
-        
+       
         p1_store (int): Player 1's score pit  that contains captured pebbles (index: 6)
-        
+       
         p2_store (int): Player 2's score pit  that contains captured pebbles (index: 13)
 
+
     Returns:
-    
+   
         Bool: True if the game has ended, False if the game has not ended.
     """
     total_stones = sum(board)
-    
+   
     if board[p1_store] > total_stones // 2 or board[p2_store] > total_stones // 2:
         return True
-    
-    
+   
+   
     if all(board[pit] == 0 for pit in p1_side) or all(board[pit] == 0 for pit in p2_side):
-        
+       
         return True
-    
+   
     return False
-    
+   
+
 
 def collect_remaining_pebbles(board, p1_side, p2_side, p1_store, p2_store):
     """
         COllects remeining pebbles when one side of the board is empty
     Args:
-        
+       
         board (list): The game board represented by as a list of integers.
         Each index represents a pit with the number being the amount of pebbles
         or stones in each pit  
-        
+       
         p1_side (int): The indices of the pit's on Player 1's side (range: 0-6)
-        
+       
         p2_side (int): The indices of the pit's on Player 2's side (range: 7-13)
-        
+       
         p1_store (int): Player 1's score pit  that contains captured pebbles (index: 6)
-        
+       
         p2_store (int): Player 2's score pit  that contains captured pebbles (index: 13)
-        
+       
     Returns:
         list[int]: updated board after adding remeining pebbles to the player scores.
     """
     p1_occupied = {pit for pit in p1_side if board[pit] > 0}
     p2_occupied = {pit for pit in p2_side if board[pit] > 0}
-    
-    
+   
+   
     if not p1_occupied:
         remaining  = sum(board[pit] for pit in p2_side)
-    
+   
         for pit in p2_side:
             board[pit] = 0
-        board[p2_store] += remaining 
-        
-        
+        board[p2_store] += remaining
+       
+       
     elif not p2_occupied:
         remaining  = sum(board[pit] for pit in p1_side)
         empty_pits = set(p1_side) - p1_occupied
-        
+       
         for pit in p1_occupied.union(empty_pits):
             board[pit] = 0
-        board[p1_store] += remaining 
-        
+        board[p1_store] += remaining
+       
     return board
 
 
-    
+
+
+   
 def Calculate_final_score(board, p1_store, p2_store):
-    """ 
+    """
+        calculate the player final score
 
     Args:
-    
+   
         board (list): The game board represented by as a list of integers.
         Each index represents a pit with the number being the amount of pebbles
         or stones in each pit  
-        
+       
         p1_side (int): The indices of the pit's on Player 1's side (range: 0-6)
-        
+       
         p2_side (int): The indices of the pit's on Player 2's side (range: 7-13)
+
 
     Returns:
         tuple: A tuple containing the players and thier final scores
     """
     final_scores = {"Player 1": board[p1_store], "Player 2": board[p2_store]}
-    
+   
     # Compare the scores. The player with with higher number is the winner
     # If the scores are eqaual then the game is a draw
     if final_scores["Player 1"] > final_scores["Player 2"]:
@@ -270,5 +298,9 @@ def Calculate_final_score(board, p1_store, p2_store):
         winner = "Player 2"
     else:
         winner = "Draw"
-        
-    return final_scores, winner, game_end, board
+       
+    return final_scores, winner
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+    main(args.stones, args.names)
