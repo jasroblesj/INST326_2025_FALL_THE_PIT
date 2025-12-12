@@ -3,9 +3,11 @@ import sys
 import random as rd
 
 class Mancala:
-    def __init__(self, p1, p2):
-        self.board = [4, 4, 4, 4, 4, 4, 0, 
-                      4, 4, 4, 4, 4, 4, 0] 
+    def __init__(self, p1, p2, stones):
+        self.board = (
+            [stones]*6 + [0] + 
+            [stones]*6 + [0] 
+        ) 
         self.p1 = p1
         self.p2 = p2
 
@@ -429,7 +431,6 @@ def main(stones, names):
         modifies game as it is played
           
     """
-    stones = 4
     if not names:
         p1_name = "Player 1"
         p2_name = "Player 2"
@@ -443,7 +444,7 @@ def main(stones, names):
     p1 = Player(p1_name)
     p2 = Player(p2_name)
     
-    game = Mancala(p1, p2)
+    game = Mancala(p1, p2, stones)
     
     #run the game 
     print(f"Lets Play Mancala\n")
