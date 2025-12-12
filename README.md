@@ -2,7 +2,9 @@
 
 ### Purpose of each file in our repository:
 - exercise_collaborative_programming
+    - This file was the introductory group assignment to ensure all group members knew the basics of how to clone the repository, commit changes, and pull updated files. This file just has our practice and does not have any code of our final Mancala game.
 - interim_deliverable
+    - This file is where our group implemented the Mancala game code. It contains different functions from each group member which all contributed to a fully functioning Mancala game.
 
 ### Instructions on how to run our program from the command line on MacOS
 1. Open VSCode
