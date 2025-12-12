@@ -178,7 +178,7 @@ class Mancala:
 
         Args:
    
-            board (list): The game board represented by as a list of integers.
+            self (list): The game board represented by as a list of integers.
             Each index represents a pit with the number being the amount of pebbles
             or stones in each pit  
        
@@ -212,7 +212,7 @@ class Mancala:
             COllects remeining pebbles when one side of the board is empty
         Args:
        
-            board (list): The game board represented by as a list of integers.
+            self (list): The game board represented by as a list of integers.
             Each index represents a pit with the number being the amount of pebbles
             or stones in each pit  
        
@@ -255,7 +255,7 @@ class Mancala:
 
         Args:
    
-            board (list): The game board represented by as a list of integers.
+            self (list): The game board represented by as a list of integers.
             Each index represents a pit with the number being the amount of pebbles
             or stones in each pit  
        
