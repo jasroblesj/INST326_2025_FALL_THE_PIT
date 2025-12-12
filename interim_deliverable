@@ -337,9 +337,7 @@ class Mancala:
             starting_player = self.p1 if self.p1._my_turn else self.p2
             other_player = self.p2 if starting_player is self.p1 else self.p1
             
-            #the pits the player is allowed to pick from (the ones on their side)
-            allowedpits = range(0,6) if starting_player is self.p1 else range(7,13)
-            
+            #the pits the player is allowed to pick from (the ones on their side)            
             #begin board display and choice
             self.display_board()
             print(f"\n{starting_player.name}, your turn\n")
@@ -354,7 +352,7 @@ class Mancala:
                 except ValueError:
                     print("Pick a valid choice please")
                     continue
-                if pit_choice not in allowedpits:
+                if pit_choice not in allowed_moves:
                     print("You cannot choose this pit, choose one of yours")
                     continue
                 #empty pit
@@ -431,6 +429,7 @@ def main(stones, names):
         modifies game as it is played
           
     """
+    stones = 4
     if not names:
         p1_name = "Player 1"
         p2_name = "Player 2"
