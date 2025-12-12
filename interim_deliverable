@@ -276,6 +276,40 @@ class Mancala:
        
         return final_scores, winner
     
+    
+    def check_moves(self, player):
+        """
+        Author - Robsan Melaku
+
+            Find which pits the given player can currently move from.
+
+        Args:
+            board: list of ints representing stones in each pit
+            player: 1 or 2
+
+        Returns:
+            A set of pit indexes that contain stones that belong to the player.
+        """
+    
+        #set pit and store status
+        #p1 first pit is 0, p2 first pit is 7
+        p1_side = range(0,6)
+        p2_side = range(7,13)
+    
+        #set my side to current player side
+        if player == "p1":
+            my_side = set(p1_side)
+        else:
+            my_side = set(p2_side)
+    
+        #make set of non empty pits
+        non_empty = {i for i in range(len(self.board)) if self.board[i] > 0}
+
+        #find pits that belong to player and are not empty
+        move = my_side & non_empty
+
+        return move    
+    
     #game loop 
     def run_game(self):
         """
@@ -309,7 +343,10 @@ class Mancala:
             #begin board display and choice
             self.display_board()
             print(f"\n{starting_player.name}, your turn\n")
-            print(f"Your allowed pits: {list(allowedpits)}")
+            
+            determine_player = "p1" if starting_player is self.p1 else "p2"
+            allowed_moves = self.check_moves(determine_player)
+            print(f"Your allowed pits: {sorted(allowed_moves)}")
             
             while True:
                 try:
@@ -327,8 +364,6 @@ class Mancala:
                 break
             
             #distribution
-            determine_player = "p1" if starting_player is self.p1 else "p2"
-            
             last_pit = self.distribute(pit_choice, determine_player)
             
             #capture
@@ -347,41 +382,6 @@ class Mancala:
                 print(f"The winner is: {winner}\n")
                 self.display_board()
                 break
-
-
-def check_moves(board, player):
-    """
-    Author - Robsan Melaku
-
-    Find which pits the given player can currently move from.
-
-    Args:
-        board: list of ints representing stones in each pit
-        player: 1 or 2
-
-    Returns:
-        A set of pit indexes that contain stones that belong to the player.
-    """
-    
-    #set pit and store status
-    #p1 first pit is 0, p2 first pit is 7
-    p1_side = range(0,6)
-    p2_side = range(7,13)
-    
-    #set my side to current player side
-    if player == "p1":
-        my_side = set(p1_side)
-    else:
-        my_side = set(p2_side)
-    
-    #make set of non empty pits
-    non_empty = {i for i in range(len(board)) if board[i] > 0}
-
-    #find pits that belong to player and are not empty
-    move = my_side & non_empty
-
-    return move
-
 
 
 class Player:
